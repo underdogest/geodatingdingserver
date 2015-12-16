@@ -1,4 +1,4 @@
-﻿from flask import Flask, request, json
+﻿from flask import Flask, request, json, send_file
 import json
 from mydb import userbase
 from passlib.hash import pbkdf2_sha256
@@ -54,6 +54,22 @@ def getUserinfo(Id):
     finally:
         db.disconnect()
 
+@app.route('/users/profile/<int:Id>', methods=['GET'])
+def getUserprofile(Id):
+    try:
+        db = connectDatabase()
+        ret = db.getProfileData(Id)
+        return json.dumps(ret)
+    except Exception as e:
+        return errorMessageJSON({'Operation':'get userprofile', 'Cause':'database error'})
+    finally:
+        db.disconnect()
+
+@app.route('/users/image/<int:Id>', methods=['GET'])
+def getUserpicture(Id):
+    filename = "%d.jpg" % Id
+    return send_file(filename, mimetype='image/jpeg');
+
 @app.route('/users/login', methods=['POST'])
 def checkLogin():
     jsonPayload = request.json
@@ -105,6 +121,53 @@ def updatePosition():
     finally:
         db.disconnect()
 
+@app.route('/users/updateprofile', methods=['POST'])
+def updateProfile():
+    jsonPayload = request.json
+
+    try:
+        db = connectDatabase()
+        if not checkAuthentification(db, request.cookies.get('session')):
+            return errorMessageJSON({'Operation':'update profile', 'Cause':'not authentified'})
+
+        if not ("Username" in jsonPayload and "FirstName" in jsonPayload and "LastName" in jsonPayload):
+            return errorMessageJSON({'Operation':'update profile', 'Cause':'invalid input'})
+
+        db.setProfileData(jsonPayload['Username'], jsonPayload['FirstName'], jsonPayload['LastName'])
+        return successMessageJSON({'Operation':'update profile'})
+    except Exception as e:
+        return errorMessageJSON({'Operation':'update profile', 'Cause':'database error', 'e':e.message})
+    finally:
+        db.disconnect()
+
+@app.route('/users/updateprofileextra', methods=['POST'])
+def updateProfileExtra():
+    jsonPayload = request.json
+
+    try:
+        db = connectDatabase()
+        if not checkAuthentification(db, request.cookies.get('session')):
+            return errorMessageJSON({'Operation':'update profile extra', 'Cause':'not authentified'})
+
+        if not ("Username" in jsonPayload):
+            return errorMessageJSON({'Operation':'update profile extra', 'Cause':'invalid input'})
+        
+
+        d = {
+        'Age': jsonPayload['Age'], 
+        'Male': jsonPayload['Male'],
+        'LookingFor': jsonPayload['LookingFor'],
+        'Interests': jsonPayload['Interests']
+        }
+
+        db.setProfileExtra(jsonPayload['Username'], json.dumps(d))
+        return successMessageJSON({'Operation':'update profile extra'})
+    except Exception as e:
+        return errorMessageJSON({'Operation':'update profile extra', 'Cause':'database error', 'e':e.message})
+    finally:
+        db.disconnect()
+
+
 @app.route('/users/findabletill', methods=['POST'])
 def setFindableTill():
     jsonPayload = request.json
@@ -147,4 +210,4 @@ def registerUser():
     finally:
         db.disconnect()
     
-app.run(debug=True)
+app.run(host='0.0.0.0', port=8080, debug=True)

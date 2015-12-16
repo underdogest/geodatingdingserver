@@ -1,2 +1,2 @@
-curl http://localhost:5000/users/all
+curl http://localhost:8080/users/all
 pause

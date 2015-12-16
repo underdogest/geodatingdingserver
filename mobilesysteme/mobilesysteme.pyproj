@@ -33,20 +33,50 @@
   <ItemGroup>
     <Folder Include="mydb\" />
     <Folder Include="tests\" />
+    <Folder Include="tests\position\" />
+    <Folder Include="tests\profileextra\" />
+    <Folder Include="tests\profile\" />
+    <Folder Include="tests\register\" />
+    <Folder Include="tests\setfindable\" />
+    <Folder Include="tests\setunfindable\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="tests\createuser1.txt" />
-    <Content Include="tests\loginuser1.txt" />
-    <Content Include="tests\setfindableuser1.txt" />
-    <Content Include="tests\setpositionuser1.txt" />
-    <Content Include="tests\setunfindableuser1.txt" />
-    <Content Include="tests\_findusers.bat" />
-    <Content Include="tests\_listusers.bat" />
-    <Content Include="tests\_login.bat" />
-    <Content Include="tests\_registeruser.bat" />
-    <Content Include="tests\_setfindable.bat" />
-    <Content Include="tests\_setposition.bat" />
-    <Content Include="tests\_userinfo.bat" />
+    <Content Include="tests\position\1.json" />
+    <Content Include="tests\position\2.json" />
+    <Content Include="tests\position\3.json" />
+    <Content Include="tests\position\4.json" />
+    <Content Include="tests\position\5.json" />
+    <Content Include="tests\profileextra\1.json" />
+    <Content Include="tests\profileextra\2.json" />
+    <Content Include="tests\profileextra\3.json" />
+    <Content Include="tests\profileextra\4.json" />
+    <Content Include="tests\profileextra\5.json" />
+    <Content Include="tests\profile\1.json" />
+    <Content Include="tests\profile\2.json" />
+    <Content Include="tests\profile\3.json" />
+    <Content Include="tests\profile\4.json" />
+    <Content Include="tests\profile\5.json" />
+    <Content Include="tests\register\1.json" />
+    <Content Include="tests\register\2.json" />
+    <Content Include="tests\register\3.json" />
+    <Content Include="tests\register\4.json" />
+    <Content Include="tests\register\5.json" />
+    <Content Include="tests\setfindable\1.json" />
+    <Content Include="tests\setfindable\2.json" />
+    <Content Include="tests\setfindable\3.json" />
+    <Content Include="tests\setfindable\4.json" />
+    <Content Include="tests\setfindable\5.json" />
+    <Content Include="tests\setunfindable\1.json" />
+    <Content Include="tests\setunfindable\2.json" />
+    <Content Include="tests\setunfindable\3.json" />
+    <Content Include="tests\setunfindable\4.json" />
+    <Content Include="tests\setunfindable\5.json" />
+    <Content Include="tests\__1registerall.bat" />
+    <Content Include="tests\__2profileall.bat" />
+    <Content Include="tests\__3profileextraall.bat" />
+    <Content Include="tests\__4positionall.bat" />
+    <Content Include="tests\__5setfindableall.bat" />
+    <Content Include="tests\__6setfindableall.bat" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -66,7 +66,21 @@ class Userbase(object):
     def getProfileData(self, Id):
         with self.con:
             cur = self.con.cursor()
-            cur.execute("SELECT FirstName, LastName, ExtraProfileData FROM Users WHERE ROWID=?",  (Id, ))
+            cur.execute("SELECT FirstName, LastName, CurrentLocationZIP, CurrentLocationLAT, CurrentLocationLNG, ExtraProfileData FROM Users WHERE ROWID=? AND FindableTill >= ?",  (Id, datetime.utcnow()))
+            return cur.fetchone()
+        return False
+
+    def setProfileData(self, Username, FirstName, LastName):
+        with self.con:
+            cur = self.con.cursor()
+            cur.execute("UPDATE Users SET FirstName=?, LastName=? WHERE Username=?",  (FirstName, LastName, Username))
+            return cur.fetchone()
+        return False
+
+    def setProfileExtra(self, Username, Extra):
+        with self.con:
+            cur = self.con.cursor()
+            cur.execute("UPDATE Users SET ExtraProfileData=? WHERE Username=?",  (Extra, Username))
             return cur.fetchone()
         return False
 
@@ -89,7 +103,7 @@ class Userbase(object):
     def findPeopleByZIP(self, ZIP):
         with self.con:
             cur = self.con.cursor()
-            cur.execute("SELECT ROWID AS Id, CurrentLocationZIP, CurrentLocationLAT, CurrentLocationLNG FROM Users WHERE CurrentLocationZIP=? AND FindableTill >= ?",  (ZIP, datetime.utcnow()))
+            cur.execute("SELECT ROWID AS Id, FirstName, LastName, CurrentLocationZIP, CurrentLocationLAT, CurrentLocationLNG FROM Users WHERE CurrentLocationZIP=? AND FindableTill >= ?",  (ZIP, datetime.utcnow()))
             return cur.fetchall()
         return False
 
